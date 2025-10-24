@@ -3,109 +3,57 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أيه كل يوم✝️</title>
+<title>ST.ABANOUB.CHURCH</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Amiri&family=Tajawal:wght@700&display=swap');
+  body { font-family: 'Tajawal', sans-serif; }
 </style>
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center min-h-screen py-8">
-  <h1 class="text-3xl font-bold mb-4">✨ ✝️ أيه كل يوم ✨</h1>
 
-  <!-- Canvas -->
-  <canvas id="canvas" class="border-4 border-yellow-400 rounded-2xl mb-6 bg-gray-800 w-11/12 md:w-2/3 lg:w-1/2"></canvas>
+<h1 class="text-3xl font-bold mb-4">✨ أيه كل يوم ✝️ ✨</h1>
 
-  <!-- التحكم -->
-  <div class="w-11/12 md:w-2/3 lg:w-1/2 bg-gray-800 p-4 rounded-2xl space-y-4 shadow-lg">
+<!-- Canvas -->
+<canvas id="canvas" class="border-4 border-yellow-400 rounded-2xl mb-6 bg-gray-800 w-11/12 md:w-2/3 lg:w-1/2"></canvas>
 
-    <!-- الصورة -->
-    <div>
-      <label class="block mb-1 text-gray-300 font-semibold">📷 اختر صورة:</label>
-      <input type="file" id="imageInput" accept="image/*"
-        class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md
-               file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-gray-900 hover:file:bg-yellow-400">
-    </div>
-
-    <!-- النص -->
-    <div>
-      <label class="block mb-1 text-gray-300 font-semibold">✏️ النص:</label>
-      <input id="textInput" class="w-full rounded-lg p-2 text-black text-lg" placeholder="اكتب النص هنا...">
-    </div>
-
-    <!-- الألوان -->
-    <div class="flex flex-wrap gap-4">
-      <div>
-        <label class="block mb-1 text-gray-300 font-semibold">🎨 لون النص الداخلي:</label>
-        <input type="color" id="fillColor" value="#ffffff" class="w-16 h-10 rounded cursor-pointer">
-      </div>
-
-      <div>
-        <label class="block mb-1 text-gray-300 font-semibold">🖋️ لون الحدود:</label>
-        <input type="color" id="strokeColor" value="#d4af37" class="w-16 h-10 rounded cursor-pointer">
-      </div>
-
-      <div>
-        <label class="block mb-1 text-gray-300 font-semibold">📏 حجم الحدود:</label>
-        <input type="range" id="strokeWidth" min="1" max="20" value="8" class="w-32">
-        <p id="strokeWidthLabel" class="text-sm text-gray-400 text-center">8px</p>
-      </div>
-    </div>
-
-    <!-- حجم الخط -->
-    <div>
-      <label class="block mb-1 text-gray-300 font-semibold">🔠 حجم الخط:</label>
-      <input type="range" id="fontSize" min="20" max="150" value="80" class="w-full">
-      <p id="fontSizeLabel" class="text-center text-sm text-gray-400 mt-1">80px</p>
-    </div>
-
-    <!-- الهايلايت -->
-    <div class="text-center">
-      <button id="toggleHighlight"
-        class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition">
-        🔦 إضافة هايلايت
-      </button>
-    </div>
-
-    <!-- تحريك النص -->
-    <div class="text-center space-y-2">
-      <p class="text-gray-300 font-semibold mb-2">🎯 تحكم في مكان النص:</p>
-      <div class="flex justify-center gap-2">
-        <button class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded" id="upBtn">⬆️</button>
-      </div>
-      <div class="flex justify-center gap-2">
-        <button class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded" id="leftBtn">⬅️</button>
-        <button class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded" id="centerBtn">🎯</button>
-        <button class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded" id="rightBtn">➡️</button>
-      </div>
-      <div class="flex justify-center gap-2">
-        <button class="bg-yellow-500 hover:bg-yellow-400 text-black px-4 py-2 rounded" id="downBtn">⬇️</button>
-      </div>
-    </div>
-
-    <!-- تحميل -->
-    <button id="downloadBtn"
-      class="w-full py-2 bg-yellow-500 hover:bg-yellow-400 text-black text-lg font-semibold rounded-lg">
-      ⬇️ تحميل الصورة
-    </button>
+<!-- التحكم -->
+<div class="w-11/12 md:w-2/3 lg:w-1/2 bg-gray-800 p-4 rounded-2xl space-y-4 shadow-lg">
+  
+  <!-- الصورة -->
+  <div>
+    <label class="block mb-1 text-gray-300 font-semibold">📷 اختر صورة:</label>
+    <input type="file" id="imageInput" accept="image/*"
+      class="block w-full text-sm text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-md
+             file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-gray-900 hover:file:bg-yellow-400">
   </div>
+
+  <!-- منطقة النصوص -->
+  <div id="textsContainer" class="space-y-4"></div>
+
+  <!-- زر إضافة نص -->
+  <button id="addTextBtn"
+    class="w-full py-2 bg-yellow-500 hover:bg-yellow-400 text-black text-lg font-semibold rounded-lg">
+    ➕ إضافة نص جديد
+  </button>
+
+  <!-- تحميل -->
+  <button id="downloadBtn"
+    class="w-full py-2 bg-green-500 hover:bg-green-400 text-white text-lg font-semibold rounded-lg">
+    ⬇️ تحميل الصورة النهائية
+  </button>
+</div>
 
 <script>
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 const img = new Image();
-let posX = 250, posY = 250;
-let highlightOn = false;
-
 const imageInput = document.getElementById('imageInput');
-const textInput = document.getElementById('textInput');
-const fillColor = document.getElementById('fillColor');
-const strokeColor = document.getElementById('strokeColor');
-const strokeWidth = document.getElementById('strokeWidth');
-const strokeWidthLabel = document.getElementById('strokeWidthLabel');
-const fontSize = document.getElementById('fontSize');
-const fontSizeLabel = document.getElementById('fontSizeLabel');
-const toggleHighlight = document.getElementById('toggleHighlight');
+const textsContainer = document.getElementById('textsContainer');
+const addTextBtn = document.getElementById('addTextBtn');
+let texts = []; // كل النصوص
 
+// تحميل الصورة
 imageInput.addEventListener('change', e=>{
   const file=e.target.files[0];
   if(!file) return;
@@ -114,8 +62,6 @@ imageInput.addEventListener('change', e=>{
     img.onload=()=>{
       canvas.width=img.width;
       canvas.height=img.height;
-      posX=canvas.width/2;
-      posY=canvas.height/2;
       draw();
     };
     img.src=ev.target.result;
@@ -123,61 +69,143 @@ imageInput.addEventListener('change', e=>{
   reader.readAsDataURL(file);
 });
 
+// إضافة نص جديد
+addTextBtn.addEventListener('click', ()=>{
+  const id = Date.now();
+  const textObj = {
+    id,
+    text: "نص جديد",
+    fillColor: "#ffffff",
+    strokeColor: "#d4af37",
+    strokeWidth: 8,
+    fontSize: 80,
+    x: canvas.width / 2 || 250,
+    y: canvas.height / 2 || 250,
+    highlight: false
+  };
+  texts.push(textObj);
+  addTextControls(textObj);
+  draw();
+});
+
+// إنشاء عناصر التحكم الخاصة بكل نص
+function addTextControls(textObj){
+  const div = document.createElement('div');
+  div.className = "bg-gray-700 p-3 rounded-xl space-y-2";
+  div.dataset.id = textObj.id;
+  div.innerHTML = `
+    <input type="text" class="w-full text-black rounded p-2 text-lg" value="${textObj.text}" placeholder="اكتب النص هنا...">
+
+    <div class="flex flex-wrap gap-3">
+      <div>
+        <label class="text-sm text-gray-300">🎨 لون النص</label>
+        <input type="color" value="${textObj.fillColor}" class="fillColor w-12 h-8 rounded">
+      </div>
+      <div>
+        <label class="text-sm text-gray-300">🖋️ لون الحدود</label>
+        <input type="color" value="${textObj.strokeColor}" class="strokeColor w-12 h-8 rounded">
+      </div>
+      <div>
+        <label class="text-sm text-gray-300">📏 عرض الحدود</label>
+        <input type="range" min="1" max="20" value="${textObj.strokeWidth}" class="strokeWidth w-24">
+      </div>
+      <div>
+        <label class="text-sm text-gray-300">🔠 حجم الخط</label>
+        <input type="range" min="20" max="150" value="${textObj.fontSize}" class="fontSize w-32">
+      </div>
+    </div>
+
+    <div class="flex justify-center gap-2">
+      <button class="move bg-yellow-500 px-3 py-1 rounded" data-dir="up">⬆️</button>
+    </div>
+    <div class="flex justify-center gap-2">
+      <button class="move bg-yellow-500 px-3 py-1 rounded" data-dir="left">⬅️</button>
+      <button class="move bg-yellow-500 px-3 py-1 rounded" data-dir="center">🎯</button>
+      <button class="move bg-yellow-500 px-3 py-1 rounded" data-dir="right">➡️</button>
+    </div>
+    <div class="flex justify-center gap-2 mb-2">
+      <button class="move bg-yellow-500 px-3 py-1 rounded" data-dir="down">⬇️</button>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <button class="highlight bg-gray-600 px-3 py-1 rounded">${textObj.highlight ? '❌ إزالة الهايلايت' : '🔦 هايلايت'}</button>
+      <button class="delete bg-red-500 hover:bg-red-400 px-3 py-1 rounded text-white">🗑️ حذف</button>
+    </div>
+  `;
+  textsContainer.appendChild(div);
+
+  // الأحداث
+  div.querySelector('input[type="text"]').addEventListener('input', e=>{
+    textObj.text = e.target.value; draw();
+  });
+  div.querySelector('.fillColor').addEventListener('input', e=>{
+    textObj.fillColor = e.target.value; draw();
+  });
+  div.querySelector('.strokeColor').addEventListener('input', e=>{
+    textObj.strokeColor = e.target.value; draw();
+  });
+  div.querySelector('.strokeWidth').addEventListener('input', e=>{
+    textObj.strokeWidth = parseInt(e.target.value); draw();
+  });
+  div.querySelector('.fontSize').addEventListener('input', e=>{
+    textObj.fontSize = parseInt(e.target.value); draw();
+  });
+
+  div.querySelectorAll('.move').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const dir = btn.dataset.dir;
+      if(dir==='up') textObj.y -= 10;
+      if(dir==='down') textObj.y += 10;
+      if(dir==='left') textObj.x -= 10;
+      if(dir==='right') textObj.x += 10;
+      if(dir==='center'){ textObj.x = canvas.width/2; textObj.y = canvas.height/2; }
+      draw();
+    });
+  });
+
+  div.querySelector('.highlight').addEventListener('click', e=>{
+    textObj.highlight = !textObj.highlight;
+    e.target.textContent = textObj.highlight ? '❌ إزالة الهايلايت' : '🔦 هايلايت';
+    draw();
+  });
+
+  div.querySelector('.delete').addEventListener('click', ()=>{
+    texts = texts.filter(t => t.id !== textObj.id);
+    div.remove();
+    draw();
+  });
+}
+
+// الرسم
 function draw(){
   if(!img.src) return;
   ctx.clearRect(0,0,canvas.width,canvas.height);
   ctx.drawImage(img,0,0,canvas.width,canvas.height);
-  const text=textInput.value.trim();
-  if(!text) return;
+  texts.forEach(t=>{
+    ctx.font = `bold ${t.fontSize}px Tajawal`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
 
-  const size = parseInt(fontSize.value);
-  ctx.font=`bold ${size}px Tajawal`;
-  ctx.textAlign='center';
-  ctx.textBaseline='middle';
+    if(t.highlight){
+      ctx.shadowColor = 'rgba(0,0,0,0.8)';
+      ctx.shadowBlur = 15;
+    } else {
+      ctx.shadowBlur = 0;
+    }
 
-  // ظل أسود (هايلايت)
-  if(highlightOn){
-    ctx.shadowColor='rgba(0,0,0,0.8)';
-    ctx.shadowBlur=15;
-  } else {
-    ctx.shadowBlur=0;
-  }
-
-  // الحد الخارجي
-  ctx.lineWidth = parseInt(strokeWidth.value);
-  ctx.strokeStyle = strokeColor.value;
-  ctx.strokeText(text, posX, posY);
-
-  // اللون الداخلي
-  ctx.fillStyle = fillColor.value;
-  ctx.fillText(text, posX, posY);
+    ctx.lineWidth = t.strokeWidth;
+    ctx.strokeStyle = t.strokeColor;
+    ctx.strokeText(t.text, t.x, t.y);
+    ctx.fillStyle = t.fillColor;
+    ctx.fillText(t.text, t.x, t.y);
+  });
 }
-
-// تفعيل / إلغاء الهايلايت
-toggleHighlight.onclick = ()=>{
-  highlightOn = !highlightOn;
-  toggleHighlight.textContent = highlightOn ? '❌ إزالة الهايلايت' : '🔦 إضافة هايلايت';
-  draw();
-};
-
-[textInput, fillColor, strokeColor, strokeWidth, fontSize].forEach(el=>el.addEventListener('input',()=>{
-  strokeWidthLabel.textContent = strokeWidth.value + 'px';
-  fontSizeLabel.textContent = fontSize.value + 'px';
-  draw();
-}));
-
-// تحريك النص
-document.getElementById('upBtn').onclick=()=>{posY-=10;draw();};
-document.getElementById('downBtn').onclick=()=>{posY+=10;draw();};
-document.getElementById('leftBtn').onclick=()=>{posX-=10;draw();};
-document.getElementById('rightBtn').onclick=()=>{posX+=10;draw();};
-document.getElementById('centerBtn').onclick=()=>{posX=canvas.width/2;posY=canvas.height/2;draw();};
 
 // تحميل الصورة
 document.getElementById('downloadBtn').onclick=()=>{
   if(!img.src) return alert("اختر صورة أولاً");
   const link=document.createElement('a');
-  link.download='text-final.png';
+  link.download='multi-text-final.png';
   link.href=canvas.toDataURL('image/png');
   link.click();
 };
