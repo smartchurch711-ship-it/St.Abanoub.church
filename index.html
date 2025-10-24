@@ -12,7 +12,7 @@
 </head>
 <body class="bg-gray-900 text-white flex flex-col items-center min-h-screen py-8">
 
-<h1 class="text-3xl font-bold mb-4">✨ أيه كل يوم ✝️ ✨</h1>
+<h1 class="text-3xl font-bold mb-4">✨ أيه كل يوم✝️ ✨</h1>
 
 <!-- Canvas -->
 <canvas id="canvas" class="border-4 border-yellow-400 rounded-2xl mb-6 bg-gray-800 w-11/12 md:w-2/3 lg:w-1/2"></canvas>
@@ -51,20 +51,48 @@ const img = new Image();
 const imageInput = document.getElementById('imageInput');
 const textsContainer = document.getElementById('textsContainer');
 const addTextBtn = document.getElementById('addTextBtn');
-let texts = []; // كل النصوص
+let texts = [];
+let savedImage = null;
 
-// تحميل الصورة
-imageInput.addEventListener('change', e=>{
-  const file=e.target.files[0];
-  if(!file) return;
-  const reader=new FileReader();
-  reader.onload=ev=>{
-    img.onload=()=>{
-      canvas.width=img.width;
-      canvas.height=img.height;
+// 🧠 تحميل البيانات من localStorage
+window.addEventListener('load', () => {
+  const savedTexts = localStorage.getItem('goldenTexts');
+  const savedImg = localStorage.getItem('goldenImage');
+
+  if (savedTexts) {
+    texts = JSON.parse(savedTexts);
+    texts.forEach(t => addTextControls(t));
+  }
+
+  if (savedImg) {
+    img.src = savedImg;
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
       draw();
     };
-    img.src=ev.target.result;
+  }
+});
+
+// 🧠 حفظ التغييرات تلقائيًا
+function saveToLocal() {
+  localStorage.setItem('goldenTexts', JSON.stringify(texts));
+  if (img.src) localStorage.setItem('goldenImage', img.src);
+}
+
+// تحميل الصورة من الجهاز
+imageInput.addEventListener('change', e=>{
+  const file = e.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    img.onload = () => {
+      canvas.width = img.width;
+      canvas.height = img.height;
+      draw();
+      saveToLocal();
+    };
+    img.src = ev.target.result;
   };
   reader.readAsDataURL(file);
 });
@@ -86,6 +114,7 @@ addTextBtn.addEventListener('click', ()=>{
   texts.push(textObj);
   addTextControls(textObj);
   draw();
+  saveToLocal();
 });
 
 // إنشاء عناصر التحكم الخاصة بكل نص
@@ -136,19 +165,19 @@ function addTextControls(textObj){
 
   // الأحداث
   div.querySelector('input[type="text"]').addEventListener('input', e=>{
-    textObj.text = e.target.value; draw();
+    textObj.text = e.target.value; draw(); saveToLocal();
   });
   div.querySelector('.fillColor').addEventListener('input', e=>{
-    textObj.fillColor = e.target.value; draw();
+    textObj.fillColor = e.target.value; draw(); saveToLocal();
   });
   div.querySelector('.strokeColor').addEventListener('input', e=>{
-    textObj.strokeColor = e.target.value; draw();
+    textObj.strokeColor = e.target.value; draw(); saveToLocal();
   });
   div.querySelector('.strokeWidth').addEventListener('input', e=>{
-    textObj.strokeWidth = parseInt(e.target.value); draw();
+    textObj.strokeWidth = parseInt(e.target.value); draw(); saveToLocal();
   });
   div.querySelector('.fontSize').addEventListener('input', e=>{
-    textObj.fontSize = parseInt(e.target.value); draw();
+    textObj.fontSize = parseInt(e.target.value); draw(); saveToLocal();
   });
 
   div.querySelectorAll('.move').forEach(btn=>{
@@ -159,20 +188,20 @@ function addTextControls(textObj){
       if(dir==='left') textObj.x -= 10;
       if(dir==='right') textObj.x += 10;
       if(dir==='center'){ textObj.x = canvas.width/2; textObj.y = canvas.height/2; }
-      draw();
+      draw(); saveToLocal();
     });
   });
 
   div.querySelector('.highlight').addEventListener('click', e=>{
     textObj.highlight = !textObj.highlight;
     e.target.textContent = textObj.highlight ? '❌ إزالة الهايلايت' : '🔦 هايلايت';
-    draw();
+    draw(); saveToLocal();
   });
 
   div.querySelector('.delete').addEventListener('click', ()=>{
     texts = texts.filter(t => t.id !== textObj.id);
     div.remove();
-    draw();
+    draw(); saveToLocal();
   });
 }
 
@@ -205,7 +234,7 @@ function draw(){
 document.getElementById('downloadBtn').onclick=()=>{
   if(!img.src) return alert("اختر صورة أولاً");
   const link=document.createElement('a');
-  link.download='multi-text-final.png';
+  link.download='golden-text-final.png';
   link.href=canvas.toDataURL('image/png');
   link.click();
 };
